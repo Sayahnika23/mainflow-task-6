@@ -1,0 +1,32 @@
+#Task 46: Word Ladder Problem
+from collections import deque
+
+def wordLadder(start, end, wordList):
+    wordSet = set(wordList)
+    if end not in wordSet:
+        return 0  # If end word is not in the dictionary, no transformation is possible
+
+    queue = deque([(start, 1)])  # (current_word, steps)
+    
+    while queue:
+        word, steps = queue.popleft()
+        if word == end:
+            return steps  # Return the number of steps once we reach the end word
+        
+        for i in range(len(word)):
+            for c in 'abcdefghijklmnopqrstuvwxyz':  # Try changing each letter
+                new_word = word[:i] + c + word[i+1:]
+                if new_word in wordSet:
+                    queue.append((new_word, steps + 1))
+                    wordSet.remove(new_word)  # Remove to avoid revisiting
+
+    return 0  # No valid transformation found
+
+# Example usage
+start_word = "hit"
+end_word = "cog"
+word_list = ["hot", "dot", "dog", "lot", "log", "cog"]
+
+print("Shortest Transformation Sequence Length:", wordLadder(start_word, end_word, word_list))
+
+Shortest Transformation Sequence Length: 5
