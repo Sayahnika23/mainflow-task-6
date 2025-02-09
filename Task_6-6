@@ -1,0 +1,96 @@
+import random
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.health = 100
+        self.attack = 10
+        self.inventory = []
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health < 0:
+            self.health = 0
+
+    def attack_enemy(self, enemy):
+        damage = random.randint(5, self.attack)
+        print(f"{self.name} attacks {enemy.name} for {damage} damage!")
+        enemy.take_damage(damage)
+
+class Enemy:
+    def __init__(self, name, health, attack):
+        self.name = name
+        self.health = health
+        self.attack = attack
+
+    def take_damage(self, damage):
+        self.health -= damage
+        if self.health < 0:
+            self.health = 0
+
+    def attack_player(self, player):
+        damage = random.randint(5, self.attack)
+        print(f"{self.name} attacks {player.name} for {damage} damage!")
+        player.take_damage(damage)
+
+def battle(player, enemy):
+    print(f"\nA wild {enemy.name} appears!")
+    
+    while player.health > 0 and enemy.health > 0:
+        action = input("Choose action: (A)ttack or (R)un: ").lower()
+        if action == 'a':
+            player.attack_enemy(enemy)
+            if enemy.health > 0:
+                enemy.attack_player(player)
+        elif action == 'r':
+            print(f"{player.name} runs away!")
+            return
+        else:
+            print("Invalid action. Try again.")
+
+    if player.health == 0:
+        print("You have been defeated... Game Over.")
+    elif enemy.health == 0:
+        print(f"{enemy.name} has been defeated! You win!")
+
+def main():
+    print("Welcome to the RPG Game!")
+    name = input("Enter your character's name: ")
+    player = Player(name)
+
+    while player.health > 0:
+        print("\nYou are exploring the world...")
+        if random.random() < 0.5:  # 50% chance of encountering an enemy
+            enemy = Enemy("Goblin", 30, 8)
+            battle(player, enemy)
+        else:
+            print("You find nothing interesting.")
+
+        if player.health == 0:
+            break
+
+        cont = input("Continue exploring? (Y/N): ").lower()
+        if cont != 'y':
+            print("Thanks for playing!")
+            break
+
+if __name__ == "__main__":
+    main()
+
+Welcome to the RPG Game!
+Enter your character's name:  Captain
+
+You are exploring the world...
+
+A wild Goblin appears!
+Choose action: (A)ttack or (R)un:  A
+Captain attacks Goblin for 6 damage!
+Goblin attacks Captain for 7 damage!
+Choose action: (A)ttack or (R)un:  R
+Captain runs away!
+Continue exploring? (Y/N):  y
+
+You are exploring the world...
+You find nothing interesting.
+Continue exploring? (Y/N):  n
+Thanks for playing!
