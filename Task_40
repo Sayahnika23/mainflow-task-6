@@ -1,0 +1,20 @@
+#Task 40: Word Frequency in Text
+def word_frequency(text):
+    words = text.split()  # Split text into words
+    freq = {}  # Dictionary to store word counts
+
+    for word in words:
+        word = word.lower().strip(".,!?")  # Convert to lowercase and remove punctuation
+        freq[word] = freq.get(word, 0) + 1  # Increment word count
+
+    return freq
+
+# User input
+text = input("Enter text: ")
+result = word_frequency(text)
+
+# Display output
+print("Word Frequencies:", result)
+
+Enter text:  The big, blue, beautiful, boundless sky above seemed to stretch endlessly, endlessly, endlessly, into the horizon.
+Word Frequencies: {'the': 2, 'big': 1, 'blue': 1, 'beautiful': 1, 'boundless': 1, 'sky': 1, 'above': 1, 'seemed': 1, 'to': 1, 'stretch': 1, 'endlessly': 3, 'into': 1, 'horizon': 1}
